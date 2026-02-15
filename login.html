@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Connexion - Nova Stream</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+    <div class="bg-glow"></div>
+
+    <header>
+        <div class="header-brand">
+            <a href="index.html" class="logo">Nova Stream</a>
+            <a href="https://discord.gg/scUwxCmf4D" target="_blank" rel="noopener noreferrer" class="header-discord" aria-label="Rejoindre notre Discord"><svg class="discord-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg><span class="discord-text">Rejoindre</span></a>
+        </div>
+        <form class="header-search" action="search.html" method="get" role="search">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            <input type="search" name="q" placeholder="Rechercher un film, une série..." autocomplete="off">
+        </form>
+        <nav>
+            <a href="index.html">Accueil</a>
+            <a href="films.html">Films</a>
+            <a href="series.html">Séries</a>
+        </nav>
+    </header>
+
+    <main class="login-main">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="login-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"/></svg>
+                </div>
+                <h1>Connexion</h1>
+                <p>Connecte-toi pour accéder à ton compte</p>
+            </div>
+
+            <form id="loginForm" class="login-form">
+                <div id="loginError" class="msg-error hidden"></div>
+                <div class="form-group">
+                    <label for="username">Identifiant</label>
+                    <div class="input-wrap">
+                        <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                        <input type="text" id="username" name="username" placeholder="Ton identifiant" required autocomplete="username">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="password">Mot de passe</label>
+                    <div class="input-wrap has-toggle">
+                        <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        <input type="password" id="password" name="password" placeholder="Ton mot de passe" required autocomplete="current-password">
+                        <button type="button" class="toggle-pwd" id="togglePwd" aria-label="Afficher le mot de passe">
+                            <svg class="icon-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            <svg class="icon-eye-off hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                        </button>
+                    </div>
+                </div>
+                <button type="submit" class="btn-login" id="loginBtn">
+                    <span class="btn-text">Se connecter</span>
+                    <span class="btn-loading hidden">
+                        <span class="spinner"></span>
+                        Connexion...
+                    </span>
+                </button>
+            </form>
+
+            <a href="index.html" class="login-back">← Retour à l'accueil</a>
+        </div>
+    </main>
+
+    <script src="js/auth.js"></script>
+    <script>
+        if (isLoggedIn()) {
+            window.location.href = 'admin.html';
+        }
+
+        const form = document.getElementById('loginForm');
+        const errorEl = document.getElementById('loginError');
+        const loginBtn = document.getElementById('loginBtn');
+        const togglePwd = document.getElementById('togglePwd');
+        const passwordInput = document.getElementById('password');
+
+        togglePwd.addEventListener('click', () => {
+            const type = passwordInput.type;
+            passwordInput.type = type === 'password' ? 'text' : 'password';
+            togglePwd.querySelector('.icon-eye').classList.toggle('hidden', type !== 'password');
+            togglePwd.querySelector('.icon-eye-off').classList.toggle('hidden', type === 'password');
+        });
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            errorEl.classList.add('hidden');
+            loginBtn.classList.add('loading');
+            loginBtn.querySelector('.btn-text').classList.add('hidden');
+            loginBtn.querySelector('.btn-loading').classList.remove('hidden');
+
+            const username = document.getElementById('username').value.trim();
+            const password = passwordInput.value;
+
+            setTimeout(() => {
+                if (login(username, password)) {
+                    loginBtn.querySelector('.btn-loading').textContent = 'Redirection...';
+                    window.location.href = 'admin.html';
+                } else {
+                    errorEl.textContent = 'Identifiant ou mot de passe incorrect.';
+                    errorEl.classList.remove('hidden');
+                    form.classList.add('shake');
+                    setTimeout(() => form.classList.remove('shake'), 500);
+                    loginBtn.classList.remove('loading');
+                    loginBtn.querySelector('.btn-text').classList.remove('hidden');
+                    loginBtn.querySelector('.btn-loading').innerHTML = '<span class="spinner"></span>Connexion...';
+                    loginBtn.querySelector('.btn-loading').classList.add('hidden');
+                }
+            }, 600);
+        });
+    </script>
+</body>
+</html>

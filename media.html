@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Nova Stream</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="bg-glow"></div>
+
+    <header>
+        <div class="header-brand">
+            <a href="index.html" class="logo">Nova Stream</a>
+            <a href="https://discord.gg/scUwxCmf4D" target="_blank" rel="noopener noreferrer" class="header-discord" aria-label="Rejoindre notre Discord"><svg class="discord-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg><span class="discord-text">Rejoindre</span></a>
+        </div>
+        <form class="header-search" action="search.html" method="get" role="search">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            <input type="search" name="q" placeholder="Rechercher un film, une série..." autocomplete="off">
+        </form>
+        <nav>
+            <a href="index.html">Accueil</a>
+            <a href="films.html">Films</a>
+            <a href="series.html">Séries</a>
+            <a href="admin.html" id="navAdd">+ Ajouter</a>
+            <a href="login.html" id="navLogin">Se connecter</a>
+            <a href="#" id="logoutBtn" class="hidden">Déconnexion</a>
+        </nav>
+    </header>
+
+    <main class="media-detail-main">
+        <section id="mediaDetail" class="media-detail hidden">
+            <div class="media-detail-layout">
+                <div class="media-detail-left">
+                    <div class="media-player-wrap">
+                        <video id="videoPlayer" controls playsinline poster="">
+                            <source id="videoSource" src="" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="media-detail-info">
+                        <span id="mediaBadge" class="media-badge">Film</span>
+                        <h1 id="mediaTitle"></h1>
+                        <div id="mediaMeta" class="media-meta"></div>
+                        <p id="mediaDescription" class="media-description"></p>
+                    </div>
+                    <div id="episodesSection" class="episodes-panel hidden">
+                    <div class="episodes-panel-header">
+                        <svg class="episodes-menu-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+                        <div id="episodesSeasonTabs" class="episodes-season-tabs"></div>
+                    </div>
+                    <div id="episodesList" class="episodes-list"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/auth.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/video-controls.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        updateNavAuth();
+        document.getElementById('logoutBtn')?.addEventListener('click', (e) => { e.preventDefault(); logout(); window.location.href = 'index.html'; });
+        (function() {
+            const params = new URLSearchParams(location.search);
+            const id = params.get('id');
+            const type = params.get('type') || 'film';
+            const cat = type === 'serie' ? 'serie' : 'film';
+
+            const detail = document.getElementById('mediaDetail');
+            const vid = document.getElementById('videoPlayer');
+            const videoSource = document.getElementById('videoSource');
+            const episodesSection = document.getElementById('episodesSection');
+            const episodesList = document.getElementById('episodesList');
+
+            function playEpisode(videoUrl, episodeTitle) {
+                if (!vid || !videoSource) return;
+                // Pour les séries, afficher le lecteur vidéo
+                vid.classList.remove('hidden');
+                document.querySelector('.media-player-wrap').classList.remove('poster-only');
+                videoSource.src = videoUrl;
+                vid.load();
+                vid.play().catch(() => {});
+            }
+
+            function showMedia(item) {
+                if (!item) {
+                    window.location.href = 'index.html';
+                    return;
+                }
+                detail.classList.remove('hidden');
+
+                document.getElementById('mediaBadge').textContent = type === 'serie' ? 'Série' : 'Film';
+                document.getElementById('mediaTitle').textContent = item.title;
+
+                const meta = [];
+                if (item.duration && item.duration !== '-') meta.push(item.duration + ' min');
+                if (item.year && item.year !== '-') meta.push(item.year);
+                if (item.genre && item.genre !== '-') meta.push(item.genre);
+                document.getElementById('mediaMeta').textContent = meta.join(' • ') || '-';
+
+                // Pour les séries, cacher le badge et les infos (année, genre, durée)
+                if (type === 'serie') {
+                    document.getElementById('mediaBadge').classList.add('hidden');
+                    document.getElementById('mediaMeta').classList.add('hidden');
+                } else {
+                    document.getElementById('mediaBadge').classList.remove('hidden');
+                    document.getElementById('mediaMeta').classList.remove('hidden');
+                }
+
+                const descEl = document.getElementById('mediaDescription');
+                if (item.description) {
+                    descEl.textContent = item.description;
+                    descEl.classList.remove('media-description-empty');
+                } else {
+                    descEl.textContent = 'Aucune description.';
+                    descEl.classList.add('media-description-empty');
+                }
+
+                if (type === 'serie') {
+                    // Pour les séries, on cache la description jusqu'à la sélection d'un épisode
+                    descEl.textContent = '';
+                    descEl.classList.add('media-description-empty');
+                }
+
+                document.title = item.title + ' - Nova Stream';
+
+                const mediaPlayerWrap = document.querySelector('.media-player-wrap');
+                if (vid && videoSource) {
+                    if (type === 'film') {
+                        // Pour les films, charger la vidéo
+                        vid.poster = item.image || '';
+                        videoSource.src = item.videoUrl || '';
+                        vid.load();
+                        vid.classList.remove('hidden');
+                        mediaPlayerWrap.classList.remove('poster-only');
+                    } else {
+                        // Pour les séries, afficher juste l'image
+                        vid.classList.add('hidden');
+                        mediaPlayerWrap.classList.add('poster-only');
+                        mediaPlayerWrap.style.backgroundImage = `url('${item.image || ''}')`;
+                    }
+                }
+
+                if (type === 'serie' && item.episodes?.length) {
+                    episodesSection.classList.remove('hidden');
+                    const bySeason = {};
+                    item.episodes.forEach(ep => {
+                        const s = ep.season || 1;
+                        if (!bySeason[s]) bySeason[s] = [];
+                        bySeason[s].push(ep);
+                    });
+                    const seasons = Object.keys(bySeason).map(Number).sort((a,b) => a - b);
+                    const esc = (s) => (s || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+                    let selectedEpisode = null;
+
+                    function renderSeason(seasonNum) {
+                        const eps = bySeason[seasonNum].sort((a,b) => (a.episode || 0) - (b.episode || 0));
+                        return eps.map(ep => {
+                            const title = ep.title || 'Épisode ' + ep.episode;
+                            const label = '#' + (ep.episode || '') + ' Épisode ' + (ep.title || ep.episode || '');
+                            const description = ep.description || '';
+                            return `<button type="button" class="episode-item" data-src="${esc(ep.videoUrl)}" data-title="${esc(title)}" data-description="${esc(description)}">
+                                ${esc(label)}
+                            </button>`;
+                        }).join('');
+                    }
+
+                    const tabsEl = document.getElementById('episodesSeasonTabs');
+                    tabsEl.innerHTML = seasons.map(s => `<button type="button" class="episodes-season-tab ${s === seasons[0] ? 'active' : ''}" data-season="${s}">Saison ${s}</button>`).join('');
+
+                    function showSeason(seasonNum) {
+                        episodesList.innerHTML = renderSeason(seasonNum);
+                        tabsEl.querySelectorAll('.episodes-season-tab').forEach(t => t.classList.toggle('active', parseInt(t.dataset.season) === seasonNum));
+                        selectedEpisode = null;
+                        episodesList.querySelectorAll('.episode-item').forEach(btn => {
+                            btn.addEventListener('click', () => {
+                                episodesList.querySelectorAll('.episode-item').forEach(b => b.classList.remove('selected'));
+                                btn.classList.add('selected');
+                                selectedEpisode = { src: btn.dataset.src, title: btn.dataset.title, description: btn.dataset.description };
+                                playEpisode(selectedEpisode.src, selectedEpisode.title);
+                                // Mettre à jour la description affichée
+                                const descEl = document.getElementById('mediaDescription');
+                                if (selectedEpisode.description) {
+                                    descEl.textContent = selectedEpisode.description;
+                                    descEl.classList.remove('media-description-empty');
+                                } else {
+                                    descEl.textContent = 'Aucune description.';
+                                    descEl.classList.add('media-description-empty');
+                                }
+                            });
+                        });
+                    }
+
+                    showSeason(seasons[0]);
+                    tabsEl.querySelectorAll('.episodes-season-tab').forEach(tab => {
+                        tab.addEventListener('click', () => showSeason(parseInt(tab.dataset.season)));
+                    });
+                } else {
+                    episodesSection.classList.add('hidden');
+                }
+            }
+
+            loadContentAsync().then(() => {
+                const item = getItemById(cat, id);
+                showMedia(item);
+                window.addEventListener('content:updated', () => {
+                    const item = getItemById(cat, id);
+                    showMedia(item);
+                });
+            });
+        })();
+    </script>
+</body>
+</html>

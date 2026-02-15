@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Ajouter - Nova Stream Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+    <div class="bg-glow"></div>
+
+    <header>
+        <div class="header-brand">
+            <a href="index.html" class="logo">Nova Stream</a>
+            <a href="https://discord.gg/scUwxCmf4D" target="_blank" rel="noopener noreferrer" class="header-discord" aria-label="Rejoindre notre Discord"><svg class="discord-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg><span class="discord-text">Rejoindre</span></a>
+        </div>
+        <form class="header-search" action="search.html" method="get" role="search">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            <input type="search" name="q" placeholder="Rechercher un film, une série..." autocomplete="off">
+        </form>
+        <nav>
+            <a href="index.html">Accueil</a>
+            <a href="films.html">Films</a>
+            <a href="series.html">Séries</a>
+            <a href="admin.html" id="navAdd" class="active">+ Ajouter</a>
+            <a href="login.html" id="navLogin">Se connecter</a>
+            <a href="#" id="logoutBtn" class="btn-logout hidden">Déconnexion</a>
+        </nav>
+    </header>
+
+    <main class="admin-main" id="adminContent">
+        <section class="admin-section">
+            <h1>Ajouter un film ou une série</h1>
+            <p class="admin-desc">Remplis le formulaire pour ajouter du contenu sur le site.</p>
+
+            <form id="addForm" class="admin-form">
+                <input type="hidden" id="editId" value="">
+                <input type="hidden" id="editCat" value="">
+                <div class="form-group">
+                    <label for="category">Catégorie</label>
+                    <select id="category" name="category" required>
+                        <option value="film">Film</option>
+                        <option value="serie">Série</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="title">Titre</label>
+                    <input type="text" id="title" name="title" placeholder="Ex: Mon film préféré" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Image</label>
+                    <div class="image-options">
+                        <label class="option-tab active" data-option="file">
+                            <input type="radio" name="imgType" value="file" checked> Fichier
+                        </label>
+                        <label class="option-tab" data-option="url">
+                            <input type="radio" name="imgType" value="url"> URL
+                        </label>
+                    </div>
+                    <div id="imgFileWrap" class="input-wrap">
+                        <input type="file" id="imageFile" accept="image/*">
+                    </div>
+                    <div id="imgUrlWrap" class="input-wrap hidden">
+                        <input type="text" id="imageUrl" placeholder="https://... ou image/nom.png">
+                    </div>
+                </div>
+
+                <div class="form-group" id="descriptionGroup">
+                    <label for="description">Description</label>
+                    <textarea id="description" name="description" rows="4" placeholder="Résumé ou synopsis du film/série..."></textarea>
+                </div>
+
+                <div class="form-group" id="videoUrlGroup">
+                    <label for="videoUrl">Lien vidéo (URL du streaming) <span id="videoUrlHint" class="form-hint">— pour les films ou série à 1 épisode</span></label>
+                    <input type="url" id="videoUrl" name="videoUrl" placeholder="https://...">
+                </div>
+
+                <div id="episodesGroup" class="form-group hidden">
+                    <label>Épisodes <span class="form-hint">— Saison, numéro, titre, durée (min), description, URL vidéo</span></label>
+                    <div id="episodesContainer"></div>
+                    <button type="button" class="btn-add-episode" id="addEpisodeBtn">+ Ajouter un épisode</button>
+                </div>
+
+                <div class="form-row" id="durationRow">
+                    <div class="form-group">
+                        <label for="duration">Durée (min)</label>
+                        <input type="text" id="duration" name="duration" placeholder="125">
+                    </div>
+                </div>
+
+                <div class="form-row" id="yearGenreRow">
+                    <div class="form-group">
+                        <label for="year">Année</label>
+                        <input type="text" id="year" name="year" placeholder="2025">
+                    </div>
+                    <div class="form-group">
+                        <label for="genre">Genre</label>
+                        <input type="text" id="genre" name="genre" placeholder="Drame, Animation...">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit" id="submitBtn">Ajouter au site</button>
+                <button type="button" class="btn-cancel hidden" id="cancelEditBtn">Annuler la modification</button>
+            </form>
+        </section>
+
+        <section class="admin-list">
+            <h2>Contenu actuel</h2>
+            <div class="list-search">
+                <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                <input type="search" id="searchContent" placeholder="Rechercher un film ou une série..." autocomplete="off">
+            </div>
+            <div class="list-tabs">
+                <button class="list-tab active" data-list="films">Films</button>
+                <button class="list-tab" data-list="series">Séries</button>
+            </div>
+            <div id="filmsList" class="content-list"></div>
+            <div id="seriesList" class="content-list hidden"></div>
+        </section>
+    </main>
+
+    <div id="adminLoginPrompt" class="admin-login-prompt hidden">
+        <p>Tu dois te connecter pour accéder à l'admin.</p>
+        <a href="login.html" class="btn-submit" style="display:inline-block;text-align:center;text-decoration:none">Se connecter</a>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/admin.js"></script>
+    <script>
+        updateNavAuth();
+        if (!isLoggedIn()) {
+            document.getElementById('adminContent').classList.add('hidden');
+            document.getElementById('adminLoginPrompt').classList.remove('hidden');
+        } else {
+            document.getElementById('logoutBtn').addEventListener('click', (e) => {
+                e.preventDefault();
+                logout();
+                window.location.href = 'login.html';
+            });
+        }
+    </script>
+</body>
+</html>
