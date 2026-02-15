@@ -218,7 +218,11 @@
             }
 
             loadContentAsync().then(() => {
+                console.log('[media] Content loaded, searching for:', cat, id);
+                const content = getContent();
+                console.log('[media] Available items:', content);
                 const item = getItemById(cat, id);
+                console.log('[media] Found item:', item);
                 showMedia(item);
                 window.addEventListener('content:updated', () => {
                     console.debug('[media] content:updated received for id=', id);
