@@ -35,15 +35,19 @@
     </header>
 
     <main>
-        <section class="hero">
-            <div class="hero-bg hero-bg-default">
+        <section class="hero" id="heroSection">
+            <div class="hero-bg hero-bg-default" id="heroBg">
                 <div class="hero-overlay"></div>
             </div>
             <div class="hero-content">
-                <span class="hero-badge">Bienvenue</span>
-                <h1>Nova Stream</h1>
-                <p>Découvre des films et séries en streaming gratuit. Ajoute ton contenu et partage-le avec tout le monde.</p>
+                <span class="hero-badge" id="heroBadge">Bienvenue</span>
+                <h1 id="heroTitle">Nova Stream</h1>
+                <p id="heroDescription">Découvre des films et séries en streaming gratuit. Ajoute ton contenu et partage-le avec tout le monde.</p>
                 <div class="hero-actions">
+                    <a href="#" id="heroWatchBtn" class="btn-play" style="display: none;">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                        <span id="heroWatchText">Regarder</span>
+                    </a>
                     <a href="films.html" class="btn-play">
                         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
                         Voir les films
@@ -150,6 +154,11 @@
             const prevBtn = document.getElementById('prevBtn');
             const nextBtn = document.getElementById('nextBtn');
             const dotsContainer = document.getElementById('carouselDots');
+            const heroBg = document.getElementById('heroBg');
+            const heroTitle = document.getElementById('heroTitle');
+            const heroDescription = document.getElementById('heroDescription');
+            const heroBadge = document.getElementById('heroBadge');
+            const heroWatchBtn = document.getElementById('heroWatchBtn');
 
             carouselSection.classList.remove('hidden');
 
@@ -184,13 +193,28 @@
             let currentIdx = 0;
             let autoPlayInterval;
 
+            // Mettre à jour le hero avec les données du slide actuel
+            const updateHero = () => {
+                const currentItem = allItems[currentIdx];
+                heroBg.style.backgroundImage = `url('${escapeHtml(currentItem.image || '')}')`;
+                heroTitle.textContent = currentItem.title;
+                heroDescription.textContent = currentItem.description || 'Aucune description disponible.';
+                heroBadge.textContent = currentItem.type === 'film' ? 'Film' : 'Série';
+                heroWatchBtn.href = 'media.html?id=' + encodeURIComponent(currentItem.id) + '&type=' + currentItem.type;
+                heroWatchBtn.style.display = 'inline-flex';
+            };
+
             const updateCarousel = (idx) => {
                 currentIdx = (idx + allItems.length) % allItems.length;
                 track.style.transform = `translateX(-${currentIdx * 100}%)`;
                 document.querySelectorAll('.carousel-dot').forEach((dot, i) => {
                     dot.classList.toggle('active', i === currentIdx);
                 });
+                updateHero();
             };
+
+            // Initialiser le hero avec le premier item
+            updateHero();
 
             const next = () => updateCarousel(currentIdx + 1);
             const prev = () => updateCarousel(currentIdx - 1);
