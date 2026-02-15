@@ -60,21 +60,6 @@
             </div>
         </section>
 
-        <section class="carousel-section hidden" id="carouselSection">
-            <div class="carousel-container">
-                <button class="carousel-nav carousel-prev" id="prevBtn" aria-label="Précédent">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
-                </button>
-                <div class="carousel-wrapper">
-                    <div class="carousel-track" id="carouselTrack"></div>
-                </div>
-                <button class="carousel-nav carousel-next" id="nextBtn" aria-label="Suivant">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
-                </button>
-            </div>
-            <div class="carousel-dots" id="carouselDots"></div>
-        </section>
-
         <section class="category-section">
             <h2>Découvrir</h2>
             <div class="media-grid">
@@ -136,116 +121,6 @@
         updateNavAuth();
         const logoutBtn = document.getElementById('logoutBtn');
         if (logoutBtn) logoutBtn.addEventListener('click', (e) => { e.preventDefault(); logout(); window.location.href = 'index.html'; });
-
-        // Carrousel
-        (async function() {
-            await loadContentAsync();
-            const content = getContent();
-            const allItems = [
-                ...content.films.map(f => ({ ...f, type: 'film' })),
-                ...content.series.map(s => ({ ...s, type: 'serie' }))
-            ];
-
-            if (allItems.length === 0) return;
-
-            const carouselSection = document.getElementById('carouselSection');
-            const track = document.getElementById('carouselTrack');
-            const prevBtn = document.getElementById('prevBtn');
-            const nextBtn = document.getElementById('nextBtn');
-            const dotsContainer = document.getElementById('carouselDots');
-            const heroBg = document.getElementById('heroBg');
-            const heroTitle = document.getElementById('heroTitle');
-            const heroDescription = document.getElementById('heroDescription');
-            const heroBadge = document.getElementById('heroBadge');
-            const heroWatchBtn = document.getElementById('heroWatchBtn');
-
-            carouselSection.classList.remove('hidden');
-
-            // Créer les slides
-            track.innerHTML = allItems.map((item, idx) => {
-                const detailUrl = 'media.html?id=' + encodeURIComponent(item.id) + '&type=' + item.type;
-                const desc = (item.description || '').substring(0, 150) + (item.description && item.description.length > 150 ? '...' : '');
-                return `
-                <div class="carousel-slide" data-index="${idx}">
-                    <div class="carousel-slide-bg" style="background-image: url('${escapeHtml(item.image || '')}')"></div>
-                    <div class="carousel-slide-overlay"></div>
-                    <a href="${detailUrl}" class="carousel-slide-content">
-                        <img src="${escapeHtml(item.image || '')}" alt="${escapeHtml(item.title)}" class="carousel-slide-img">
-                        <div class="carousel-slide-info">
-                            <h3>${escapeHtml(item.title)}</h3>
-                            <p>${escapeHtml(desc)}</p>
-                            <button class="carousel-play-btn">
-                                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-                                Regarder
-                            </button>
-                        </div>
-                    </a>
-                </div>
-                `;
-            }).join('');
-
-            // Créer les dots
-            dotsContainer.innerHTML = allItems.map((_, idx) => `
-                <button class="carousel-dot ${idx === 0 ? 'active' : ''}" data-index="${idx}" aria-label="Slide ${idx + 1}"></button>
-            `).join('');
-
-            let currentIdx = 0;
-            let autoPlayInterval;
-
-            // Mettre à jour le hero avec les données du slide actuel
-            const updateHero = () => {
-                const currentItem = allItems[currentIdx];
-                heroBg.style.backgroundImage = `url('${escapeHtml(currentItem.image || '')}')`;
-                heroTitle.textContent = currentItem.title;
-                heroDescription.textContent = currentItem.description || 'Aucune description disponible.';
-                heroBadge.textContent = currentItem.type === 'film' ? 'Film' : 'Série';
-                heroWatchBtn.href = 'media.html?id=' + encodeURIComponent(currentItem.id) + '&type=' + currentItem.type;
-                heroWatchBtn.style.display = 'inline-flex';
-            };
-
-            const updateCarousel = (idx) => {
-                currentIdx = (idx + allItems.length) % allItems.length;
-                track.style.transform = `translateX(-${currentIdx * 100}%)`;
-                document.querySelectorAll('.carousel-dot').forEach((dot, i) => {
-                    dot.classList.toggle('active', i === currentIdx);
-                });
-                updateHero();
-            };
-
-            // Initialiser le hero avec le premier item
-            updateHero();
-
-            const next = () => updateCarousel(currentIdx + 1);
-            const prev = () => updateCarousel(currentIdx - 1);
-
-            const startAutoPlay = () => {
-                autoPlayInterval = setInterval(next, 5000);
-            };
-
-            const stopAutoPlay = () => {
-                clearInterval(autoPlayInterval);
-            };
-
-            prevBtn.addEventListener('click', () => { prev(); stopAutoPlay(); startAutoPlay(); });
-            nextBtn.addEventListener('click', () => { next(); stopAutoPlay(); startAutoPlay(); });
-
-            document.querySelectorAll('.carousel-dot').forEach(dot => {
-                dot.addEventListener('click', () => {
-                    updateCarousel(parseInt(dot.dataset.index));
-                    stopAutoPlay();
-                    startAutoPlay();
-                });
-            });
-
-            document.getElementById('carouselSection').addEventListener('mouseenter', stopAutoPlay);
-            document.getElementById('carouselSection').addEventListener('mouseleave', startAutoPlay);
-
-            startAutoPlay();
-
-            window.addEventListener('content:updated', () => {
-                location.reload();
-            });
-        })();
     </script>
 </body>
 </html>
