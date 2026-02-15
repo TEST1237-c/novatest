@@ -1695,12 +1695,7 @@ footer p {
 }
 
 .carousel-slide-img {
-    width: 180px;
-    height: 270px;
-    border-radius: 12px;
-    object-fit: cover;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-    transition: transform 0.3s ease;
+    display: none;
 }
 
 .carousel-slide-content:hover .carousel-slide-img {
