@@ -143,7 +143,20 @@ document.addEventListener('DOMContentLoaded', () => {
             toggleBtn.textContent = isCollapsed ? '▼' : '▶';
             episodesWrapper.classList.toggle('collapsed');
         });
-        seasonBlock.querySelector('.btn-add-episode-in-season').addEventListener('click', () => addEpisodeToSeason(seasonBlock));
+        seasonBlock.querySelector('.btn-add-episode-in-season').addEventListener('click', () => {
+            // Demander combien d'épisodes ajouter
+            const count = prompt('Combien d\'épisodes ajouter ? (ex: 10)', '1');
+            if (count === null) return; // Annulé
+            const num = parseInt(count, 10);
+            if (isNaN(num) || num < 1) {
+                alert('Merci de saisir un nombre valide >= 1');
+                return;
+            }
+            // Ajouter N épisodes dengan numérotation auto-incrémentée
+            for (let i = 0; i < num; i++) {
+                addEpisodeToSeason(seasonBlock, {});
+            }
+        });
         seasonBlock.querySelector('.btn-remove-season').addEventListener('click', () => {
             seasonBlock.remove();
         });
