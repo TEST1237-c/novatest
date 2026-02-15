@@ -149,6 +149,7 @@
 
                 if (type === 'serie' && item.episodes?.length) {
                     episodesSection.classList.remove('hidden');
+                    console.debug('[media] rendering series', item.id, 'title=', item.title, 'episodes_count=', item.episodes.length);
                     const bySeason = {};
                     item.episodes.forEach(ep => {
                         const s = ep.season || 1;
@@ -156,6 +157,7 @@
                         bySeason[s].push(ep);
                     });
                     const seasons = Object.keys(bySeason).map(Number).sort((a,b) => a - b);
+                    console.debug('[media] seasons found', seasons, 'counts:', seasons.map(s => bySeason[s].length));
                     const esc = (s) => (s || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
                     let selectedEpisode = null;
@@ -199,6 +201,7 @@
                     }
 
                     showSeason(seasons[0]);
+                    console.debug('[media] default season shown', seasons[0]);
                     tabsEl.querySelectorAll('.episodes-season-tab').forEach(tab => {
                         tab.addEventListener('click', () => showSeason(parseInt(tab.dataset.season)));
                     });
@@ -211,7 +214,9 @@
                 const item = getItemById(cat, id);
                 showMedia(item);
                 window.addEventListener('content:updated', () => {
+                    console.debug('[media] content:updated received for id=', id);
                     const item = getItemById(cat, id);
+                    if (!item) { console.warn('[media] item not found after update', id); }
                     showMedia(item);
                 });
             });
