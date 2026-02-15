@@ -306,6 +306,23 @@
     min-width: 160px;
 }
 
+/* Ensure inputs don't overflow their grid cell and the remove button stays visible */
+.ep-num, .ep-title, .ep-duration, .ep-url { box-sizing: border-box; }
+.ep-url {
+    min-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Force the remove button to the last grid column and center it */
+.episode-row .btn-remove-ep {
+    grid-column: 6;
+    justify-self: center;
+    align-self: center;
+    z-index: 2;
+}
+
 .ep-num:focus, .ep-title:focus, .ep-duration:focus, .ep-url:focus {
     outline: none;
     border-color: var(--accent);
