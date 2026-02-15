@@ -96,17 +96,13 @@
 
             function showMedia(item) {
                 if (!item) {
-                    console.warn('[media] Item is null/undefined, redirecting to index');
                     window.location.href = 'index.html';
                     return;
                 }
-                console.log('[media] showMedia called with item:', item);
                 detail.classList.remove('hidden');
-                console.log('[media] mediaDetail now visible:', !detail.classList.contains('hidden'));
 
                 document.getElementById('mediaBadge').textContent = type === 'serie' ? 'Série' : 'Film';
                 document.getElementById('mediaTitle').textContent = item.title;
-                console.log('[media] Title set to:', item.title);
 
                 const meta = [];
                 if (item.duration && item.duration !== '-') meta.push(item.duration + ' min');
@@ -138,7 +134,6 @@
                     descEl.textContent = 'Aucune description.';
                     descEl.classList.add('media-description-empty');
                 }
-                console.log('[media] Description set to:', item.description?.substring(0, 50));
 
                 document.title = item.title + ' - Nova Stream';
 
@@ -151,13 +146,11 @@
                         vid.load();
                         vid.classList.remove('hidden');
                         mediaPlayerWrap.classList.remove('poster-only');
-                        console.log('[media] Film video loaded:', item.videoUrl?.substring(0, 50));
                     } else {
                         // Pour les séries, afficher juste l'image
                         vid.classList.add('hidden');
                         mediaPlayerWrap.classList.add('poster-only');
                         mediaPlayerWrap.style.backgroundImage = `url('${item.image || ''}')`;
-                        console.log('[media] Serie poster displayed');
                     }
                 }
 
@@ -225,16 +218,10 @@
             }
 
             loadContentAsync().then(() => {
-                console.log('[media] Content loaded, searching for:', cat, id);
-                const content = getContent();
-                console.log('[media] Available items:', content);
                 const item = getItemById(cat, id);
-                console.log('[media] Found item:', item);
                 showMedia(item);
                 window.addEventListener('content:updated', () => {
-                    console.debug('[media] content:updated received for id=', id);
                     const item = getItemById(cat, id);
-                    if (!item) { console.warn('[media] item not found after update', id); }
                     showMedia(item);
                 });
             });
