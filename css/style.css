@@ -282,11 +282,12 @@ nav a.active {
 }
 
 .hero p {
-    color: var(--muted);
+    color: rgba(255, 255, 255, 0.95);
     font-size: 1.1rem;
     line-height: 1.6;
     margin-bottom: 1.5rem;
     transition: opacity 0.5s ease;
+    font-weight: 500;
 }
 
 .btn-play {
