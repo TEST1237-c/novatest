@@ -151,8 +151,11 @@
 }
 
 .episodes-wrapper {
-    max-height: 2000px;
-    overflow: hidden;
+    /* Limiter la hauteur et permettre le scroll interne pour éviter
+       que le bouton d'ajout ne soit poussé hors de la vue lorsque
+       la liste d'épisodes est très longue. */
+    max-height: 600px;
+    overflow: auto;
     transition: max-height 0.3s ease, opacity 0.3s ease;
     opacity: 1;
 }
@@ -165,6 +168,9 @@
 
 .episodes-container {
     margin-bottom: 1rem;
+    max-height: 460px;
+    overflow: auto;
+    padding-right: 8px; /* espace pour la scrollbar */
 }
 
 .episode-item {
@@ -185,6 +191,14 @@
     cursor: pointer;
     font-size: 0.9rem;
     transition: all 0.2s;
+}
+
+/* Rendre le bouton d'ajout collant en bas du bloc de saison
+   pour rester accessible même quand la liste est longue */
+.btn-add-episode-in-season {
+    position: sticky;
+    bottom: 8px;
+    background: rgba(0,0,0,0.03);
 }
 
 .btn-add-episode-in-season:hover {
