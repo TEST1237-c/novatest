@@ -41,7 +41,13 @@
                         </video>
                     </div>
                     <div class="media-detail-info">
-                        <span id="mediaBadge" class="media-badge">Film</span>
+                        <div class="media-badges-row">
+                            <span id="mediaBadge" class="media-badge">Film</span>
+                            <span id="episodeCountBadge" class="episode-count-badge hidden">
+                                <svg class="episodes-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+                                <span id="episodeCountText">0 épisodes</span>
+                            </span>
+                        </div>
                         <h1 id="mediaTitle"></h1>
                         <div id="mediaMeta" class="media-meta"></div>
                         <p id="mediaDescription" class="media-description"></p>
@@ -104,13 +110,20 @@
                 if (item.genre && item.genre !== '-') meta.push(item.genre);
                 document.getElementById('mediaMeta').textContent = meta.join(' • ') || '-';
 
-                // Pour les séries, cacher le badge et les infos (année, genre, durée)
                 if (type === 'serie') {
                     document.getElementById('mediaBadge').classList.add('hidden');
                     document.getElementById('mediaMeta').classList.add('hidden');
+                    // Afficher le nombre d'épisodes
+                    if (item.episodes?.length) {
+                        document.getElementById('episodeCountBadge').classList.remove('hidden');
+                        document.getElementById('episodeCountText').textContent = item.episodes.length + ' épisode' + (item.episodes.length > 1 ? 's' : '');
+                    } else {
+                        document.getElementById('episodeCountBadge').classList.add('hidden');
+                    }
                 } else {
                     document.getElementById('mediaBadge').classList.remove('hidden');
                     document.getElementById('mediaMeta').classList.remove('hidden');
+                    document.getElementById('episodeCountBadge').classList.add('hidden');
                 }
 
                 const descEl = document.getElementById('mediaDescription');
