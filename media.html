@@ -135,12 +135,6 @@
                     descEl.classList.add('media-description-empty');
                 }
 
-                if (type === 'serie') {
-                    // Pour les séries, on cache la description jusqu'à la sélection d'un épisode
-                    descEl.textContent = '';
-                    descEl.classList.add('media-description-empty');
-                }
-
                 document.title = item.title + ' - Nova Stream';
 
                 const mediaPlayerWrap = document.querySelector('.media-player-wrap');
