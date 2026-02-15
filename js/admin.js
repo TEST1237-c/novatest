@@ -82,6 +82,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const seasonNum = seasonBlock.dataset.season;
         const episodesContainer = seasonBlock.querySelector('.episodes-container');
         const epIndex = episodesContainer.querySelectorAll('.episode-item').length;
+        
+        // Auto-incrément du numéro d'épisode : utiliser le max existant + 1
+        if (!ep.episode || ep.episode === undefined || ep.episode === null) {
+            const existingEpisodes = Array.from(episodesContainer.querySelectorAll('.ep-num'))
+                .map(inp => parseInt(inp.value) || 0);
+            const maxEpisodeNum = existingEpisodes.length > 0 ? Math.max(...existingEpisodes) : 0;
+            ep.episode = maxEpisodeNum + 1;
+        }
+        
         const div = document.createElement('div');
         div.innerHTML = renderEpisodeInSeason(ep, epIndex, seasonNum);
         episodesContainer.appendChild(div.firstElementChild);
