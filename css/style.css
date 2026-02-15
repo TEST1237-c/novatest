@@ -211,6 +211,7 @@ nav a.active {
 .hero-bg {
     position: absolute;
     inset: 0;
+    transition: background-image 0.8s ease-out;
 }
 
 .hero-bg img {
@@ -268,6 +269,7 @@ nav a.active {
     text-transform: uppercase;
     border-radius: 100px;
     margin-bottom: 1rem;
+    transition: all 0.3s ease;
 }
 
 .hero h1 {
@@ -276,6 +278,7 @@ nav a.active {
     line-height: 1.1;
     letter-spacing: -0.02em;
     margin-bottom: 0.75rem;
+    transition: opacity 0.5s ease;
 }
 
 .hero p {
@@ -283,6 +286,7 @@ nav a.active {
     font-size: 1.1rem;
     line-height: 1.6;
     margin-bottom: 1.5rem;
+    transition: opacity 0.5s ease;
 }
 
 .btn-play {
